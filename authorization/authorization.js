@@ -1,3 +1,4 @@
+"use strict";
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -12,7 +13,7 @@ if (localStorage.timestamp < Date.now()) {
     localStorage.removeItem("timestamp");
 }
 const form = document.getElementById("authorization");
-form.addEventListener("submit", (event) => __awaiter(this, void 0, void 0, function* () {
+form.addEventListener("submit", (event) => __awaiter(void 0, void 0, void 0, function* () {
     event.preventDefault();
     const email = form.elements.email;
     const password = form.elements.password;
@@ -60,3 +61,4 @@ function userValidation({ email, password }) {
     const passRegExp = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])[a-zA-Z\d]{8}$/;
     return emailRegExp.test(email) ? passRegExp.test(password) : false;
 }
+//# sourceMappingURL=authorization.js.map
