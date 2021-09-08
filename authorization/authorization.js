@@ -15,8 +15,8 @@ if (localStorage.timestamp < Date.now()) {
 const form = document.getElementById("authorization");
 form.addEventListener("submit", (event) => __awaiter(void 0, void 0, void 0, function* () {
     event.preventDefault();
-    const email = form.elements.email;
-    const password = form.elements.password;
+    const email = form.elements.namedItem('email');
+    const password = form.elements.namedItem('password');
     const user = {
         "email": email.value,
         "password": password.value
