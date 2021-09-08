@@ -17,14 +17,14 @@ const form = document.getElementById("authorization") as HTMLFormElement;
 form.addEventListener("submit", async event => {
   event.preventDefault()
 
-  const email = form.elements.email as HTMLInputElement;
-  const password = form.elements.password as HTMLInputElement;
+  const email = form.elements.namedItem('email') as HTMLInputElement;
+  const password = form.elements.namedItem('password') as HTMLInputElement;
   const user: User = {
     "email": email.value,
     "password": password.value
   };
 
-  let result: ErrorMsg | JSON = await authorizationUser(user);
+  let result: ErrorMsg | any = await authorizationUser(user);
 
   if ('errorMessage' in result && result.errorMessage) {
     email.value = "";
@@ -32,7 +32,7 @@ form.addEventListener("submit", async event => {
     return alert(result.errorMessage)
   }
 
-  const {token}: {'token': string} = result;
+  const {token} = result;
 
   if (!localStorage.token) {
     localStorage.setItem("token", token);
@@ -42,7 +42,7 @@ form.addEventListener("submit", async event => {
   }
 });
 
-async function authorizationUser(user: User): Promise<ErrorMsg | JSON>  {
+async function authorizationUser(user: User): Promise<ErrorMsg | any>  {
   if (!userValidation(user)) {
     const incorrect = document.querySelector(".incorrect") as HTMLElement;
     incorrect.textContent = 'Некоректный ввод. Проверьте привильность email и пароля.';
