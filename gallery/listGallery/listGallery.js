@@ -35,7 +35,7 @@ previous.onclick = function () {
     window.location.href = `gallery.html?page=${localStorage.page - 1}`;
 };
 next.onclick = function () {
-    window.location.href = `gallery.html?page=${+localStorage.page + 1}`;
+    window.location.href = `gallery.html?page=${Number(localStorage.page) + 1}`;
 };
 function displayImgList() {
     return __awaiter(this, void 0, void 0, function* () {

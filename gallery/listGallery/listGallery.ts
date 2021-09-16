@@ -30,7 +30,7 @@ previous.onclick = function() {
 };
 
 next.onclick = function() {
-  window.location.href = `gallery.html?page=${+localStorage.page + 1}`
+  window.location.href = `gallery.html?page=${Number(localStorage.page) + 1}`
 };
 
 async function displayImgList(): Promise<void> {
