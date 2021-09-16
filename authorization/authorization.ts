@@ -4,12 +4,16 @@ if (localStorage.timestamp < Date.now()) {
 }
 
 interface User {
-  'email': string;
-  'password': string;
+  email: string;
+  password: string;
+}
+
+interface Token {
+  token: string;
 }
 
 interface ErrorMsg {
-  'errorMessage': string;
+  errorMessage: string;
 }
 
 const form = document.getElementById("authorization") as HTMLFormElement;
@@ -20,11 +24,11 @@ form.addEventListener("submit", async event => {
   const email = form.elements.namedItem('email') as HTMLInputElement;
   const password = form.elements.namedItem('password') as HTMLInputElement;
   const user: User = {
-    "email": email.value,
-    "password": password.value
+    email: email.value,
+    password: password.value
   };
 
-  let result: ErrorMsg | any = await authorizationUser(user);
+  let result: ErrorMsg | Token = await authorizationUser(user);
 
   if ('errorMessage' in result && result.errorMessage) {
     email.value = "";
@@ -32,7 +36,7 @@ form.addEventListener("submit", async event => {
     return alert(result.errorMessage)
   }
 
-  const {token} = result;
+  const {token} = result as Token;
 
   if (!localStorage.token) {
     localStorage.setItem("token", token);
@@ -42,7 +46,7 @@ form.addEventListener("submit", async event => {
   }
 });
 
-async function authorizationUser(user: User): Promise<ErrorMsg | any>  {
+async function authorizationUser(user: User): Promise<ErrorMsg | Token>  {
   if (!userValidation(user)) {
     const incorrect = document.querySelector(".incorrect") as HTMLElement;
     incorrect.textContent = 'Некоректный ввод. Проверьте привильность email и пароля.';
@@ -52,7 +56,7 @@ async function authorizationUser(user: User): Promise<ErrorMsg | any>  {
     }, 7000);
 
     return {
-      "errorMessage": "Некоректный ввод. Проверьте привильность email и пароля."
+      errorMessage: "Некоректный ввод. Проверьте привильность email и пароля."
     };
   }
 
@@ -71,5 +75,5 @@ function userValidation({email, password}: User): boolean {
   const emailRegExp: RegExp = /^[a-z\d]+@[a-z]+\.[a-z]+$/i;
   const passRegExp: RegExp = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])[a-zA-Z\d]{8}$/;
 
-  return emailRegExp.test(email) ? passRegExp.test(password) : false;
+  return emailRegExp.test(email) && passRegExp.test(password);
 }
